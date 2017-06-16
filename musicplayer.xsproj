@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Properties>
+    <AppName>musicplayer</AppName>
+    <AppVersion>1.0.0.0</AppVersion>
+    <ConfigBuild>Debug</ConfigBuild>
+    <ConfigCPU>x86</ConfigCPU>
+    <ConfigFramework>.NET Framework 4.6</ConfigFramework>
+    <ConfigEngine>Subatomic</ConfigEngine>
+    <EnvironmentName>xstudio</EnvironmentName>
+    <EnvironmentVersion>1.0</EnvironmentVersion>
+    <String>windows.musicplayer.audio</String>
+    <Output>\bin\x86\Debug</Output>
+    <echo println="Name: $_PROJECT_NAME
+License: MIT
+Version: $_PROJECT_VER
+Author: Donald Pakkies
+
+Minimum Requirements
+$_PROJECT_ENG
+$_PROJECT_FRAMEWORK
+
+This is a basic MP3 Player. Press Shift+F6 to build then open any .mp3 file with 'launcher.exe'.
+You can find this file under $_PROJECT_DIR\bin\$_PROJECT_CPU\$_PROJECT_BUILD\.
+
+Tip: Use Resource Hacker to change the icon of 'launcher.exe'
+
+To clear this message, press Alt+C"/>
+</Properties>

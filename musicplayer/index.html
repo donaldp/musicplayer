@@ -1,0 +1,32 @@
+<!DOCTYPE>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <cmodulus import="app.cmod"/>
+</head>
+<body>
+    
+    <div class='bgCover' id='bgCover'></div>
+    
+    <div class='CoverArt' id='CoverArt'></div>
+    
+    <div class='wrapTitle' id='songTitle'>
+        <marquee behavior='alternate' id='title'></marquee>
+    </div> 
+    
+    <div class='mediaControls' id='controls'>
+        <input class='btnPrev' type='button' onclick='prevSong();'/>
+        <input class='btnPlay' type='button' onclick='' id='btnPlay'/>
+        <input class='btnNext' type='button' onclick='nextSong();'/>
+        <input class='seek' value='0' type='range' id='seek' onchange="setPos();" disabled/>
+    </div>
+    
+    <div id="cont">
+    </div>
+    
+    <div id="album">
+        
+    </div>
+    
+</body>
+</html>

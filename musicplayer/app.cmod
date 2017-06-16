@@ -1,0 +1,239 @@
+﻿/* App Code */
+
+using library.seshaUI;
+var app = new seshaUI();
+
+var timer = setInterval(func() {getPos()}, 100); 
+    
+var lbartists = [];
+var lbalbums  = [];
+var allSongs  = [];
+var playing;
+var musicState;
+
+func main(args) {
+    systemmenu.enable("Debug Mode", "debugmode();");
+    app.width           = 270;
+    app.title           = 'Music Player';
+    app.formborderstyle = FormBorderStyle.Fixed3D;
+    app.maximizebox     = false;
+    
+    if args != null {
+        if File.Exists(args) == true {
+            loadSong(args);
+        }
+        else {
+            MessageBox.Show(args + " doesn't exist.", app.title, MessageButtons.OK, MessageIcon.Error);
+            application_close();
+        }
+    }
+    else {
+        //application_close();
+    }
+    
+    app.run();
+}
+
+func application_onReady() {
+    application.singleinstance();
+    app.onExit = 'condition:application_close();';
+}
+
+func application_close() {
+    volume   = 0;
+    var _vol = setInterval(func() {vol()}, 100); 
+    audio.volume(50);
+}
+
+func vol() {
+    app.windowstate = WindowState.Minimized;
+    
+    var aud = 40;
+    aud     = aud - 10;
+    audio.volume(aud - 10);
+    volume++;
+    if volume == 1 {
+       app.destroy();
+    } 
+}
+
+func debugmode() {
+    developer.showDevTools();
+}
+
+func trayIcon_Click() {
+    if thisWindow.isVisible == true {
+        thisWindow.visible(false);
+    }
+    else {
+        thisWindow.visible(true);
+    }
+}
+
+func songTitle() {
+    id3v2.url(playing);
+    var song = Path.GetFileName(playing)
+    
+    if id3v2.title == null {
+        song     = song.replace('.mp3', '');
+    }
+    else {
+        song = id3v2.title;
+    }
+    
+    if id3v2.artist == null {
+        artist = 'Unknown Artist';
+    }
+    else {
+        artist = id3v2.artist;
+    }
+    document.getElementById('title').innerHTML = artist + ' - ' + song;
+    document.title = song;
+}
+
+func loadSong(song) {
+    audio.path(song.toString());
+    playing = song.toString();
+    id3v2.url(song.toString());
+    id3v2.retrieveCover();
+    var song = Path.GetFileName(song.toString())
+    
+    if id3v2.title == null {
+        song     = song.replace('.mp3', '');
+    }
+    else {
+        song = id3v2.title;
+    }
+    
+    if id3v2.artist == null {
+        artist = 'Unknown Artist';
+    }
+    else {
+        artist = id3v2.artist;
+    }
+    
+    var path = id3v2.coverPath;
+    
+    if path == null {
+        path = 'assets/music2.png';
+    }
+    else {
+        path = path.replace(/\\/g, '/');
+    }
+    document.getElementById('bgCover').style.backgroundImage = 'url("' + path + '")';
+    document.getElementById('CoverArt').style.backgroundImage = 'url("' + path + '")';
+    document.getElementById('title').innerHTML = artist + ' - ' + song;
+    document.getElementById("album").innerHTML = id3v2.album;
+    document.title = song;
+}
+
+func nextSong() {
+    try {
+        var currentSong = allSongs.indexOf(playing)
+        var i = currentSong;
+        i     = i + 1;
+        i     = i % allSongs.length;
+        loadSong(allSongs[i])
+    }
+    catch exception {}
+}
+
+func prevSong() {
+    try {
+        var currentSong = allSongs.indexOf(playing)
+        var i = currentSong;
+        i     = i - 1;
+        i     = i % allSongs.length;
+        loadSong(allSongs[i])
+    }
+    catch exception {}
+}
+
+func playSong() {
+    audio.play();
+}
+
+func pauseSong() {
+    audio.pause();
+}
+
+func seek() {
+    var tim      = audio.currentPosition;
+    var dur      = audio.duration;
+    
+    var dMinutes = dur.split(":")[0];
+    var dSeconds = dur.split(":")[1];
+    
+    var cMinutes = tim.split(":")[0];
+    var cSeconds = tim.split(":")[1];
+    
+    dMinutes = dMinutes * 60;
+    dSeconds = Number(dMinutes) + Number(dSeconds);
+    
+    cMinutes = cMinutes * 60;
+    cSeconds = Number(cMinutes) + Number(cSeconds);
+    
+    document.getElementById('seek').setAttribute('min', 0);
+    document.getElementById('seek').setAttribute('value', 0);
+    document.getElementById('seek').setAttribute('max', dSeconds);
+    document.getElementById('seek').setAttribute('step', 1);
+    document.getElementById('seek').setAttribute('value', cSeconds);
+}
+
+func getPos() {
+    try {
+        seek();
+    }
+    catch exception { }
+}
+
+func setPos() {
+    try {
+        var position = document.getElementById("seek").value;
+        //var hour     = Math.floor(Number(position) /3600);
+        //position     = Number(position) % 3600;
+        //var minute   = Math.floor(position / 60);
+        //var second   = position % 60;
+        //println "{0}:{1}:{2}".format(hour, minute, second);
+        
+        var date = new Date(null);
+        date.setSeconds(position);
+        var res = date.toISOString().substr(11, 8);
+        res     = res.ReplaceAll(":", ".");
+        audio.setPosition(res);
+    }
+    catch exception { 
+        println exception;
+    }
+}
+
+func media_playerState(state) {
+    
+    musicState = state;
+    
+    if state == "wmppsPlaying" {
+        document.getElementById('btnPlay').setAttribute('onclick', 'pauseSong();');
+        document.getElementById('btnPlay').style.backgroundImage = 'url("controls/pause.png")';
+        timer = setInterval(func() {getPos()}, 100);
+    }
+    else if state == "wmppsPaused" {
+        document.getElementById('btnPlay').setAttribute('onclick', 'playSong();');
+        document.getElementById('btnPlay').style.backgroundImage = 'url("controls/play.png")';
+    }
+    else if state == "wmppsStopped" {
+        document.getElementById('btnPlay').setAttribute('onclick', 'playSong();');
+        document.getElementById('btnPlay').style.backgroundImage = 'url("controls/play.png")';
+        playSong();
+    }
+}
+
+func application_onInstance(url) {
+    if allSongs.Contains(url) {
+        println url + ' already pushed';
+    }
+    else {
+        allSongs.push(url);
+    }
+    
+    loadSong(url);
+}

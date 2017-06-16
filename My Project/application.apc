@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project>
+    <Executable>musicplayer.exe</Executable>
+    <Startup ui="index" type="Local">\app\index.html</Startup>
+    <Identifier>windows.musicplayer.audio</Identifier>
+</project>
