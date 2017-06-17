@@ -15,7 +15,7 @@ dir -mount /musicplayer
 ```
 
 
-Create .dependenies folder
+Create a .dependenies folder
 ```
 dir -dirCreate .dependencies
 ```
@@ -23,7 +23,7 @@ dir -dirCreate .dependencies
 
 Then go to (using the File Explorer)
 ```
-C:/Program Files (x86)/Xylon Studio/AddIns/XylonStudio.RocketShip/x86/Framework/.NET Framework 4.6
+C:/Program Files (x86)/Xylon Studio/AddIns/XylonStudio.Rocketship/x86/Framework/.NET Framework 4.6
 ```
 
 
