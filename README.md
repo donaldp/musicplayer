@@ -27,5 +27,7 @@ xs -run bin/x86/Debug/musicplayer.exe
 ```
 
 
+or use Xylon Studio
 
+Screenshot
 [![music.png](https://s4.postimg.org/7nckfhyhp/music.png)](https://postimg.org/image/imxrr3owp/)
