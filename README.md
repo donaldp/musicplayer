@@ -11,32 +11,21 @@ Launch the Developer Command Prompt for Xylon Studio
 
 Mount 
 ```
-dir -mount /musicplayer
+dir -mount /src/musicplayer
 ```
 
 
-Create a .dependenies folder
+Build
 ```
-dir -dirCreate .dependencies
-```
-
-
-Then go to (using the File Explorer)
-```
-C:/Program Files (x86)/Xylon Studio/AddIns/XylonStudio.Rocketship/x86/Framework/.NET Framework 4.6
+xs -build musicplayer.xsproj
 ```
 
 
-Copy
+Run
 ```
-rocketship.exe
+xs -run bin/x86/Debug/musicplayer.exe
 ```
 
-
-Paste inside the .dependencies folder and rename "rocketship.exe" to
-```
-launcher.exe
-```
 
 
 [![music.png](https://s4.postimg.org/7nckfhyhp/music.png)](https://postimg.org/image/imxrr3owp/)
